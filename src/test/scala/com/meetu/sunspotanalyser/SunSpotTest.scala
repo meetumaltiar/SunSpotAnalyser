@@ -44,6 +44,20 @@ class SunSpotTest extends FunSuite {
     assert(expected === result)
   }
 
+  test("first test that heat result matches") {
+    val expected = "(3,3,score:26)"
+    val input = List(1, 5, 5, 3, 1, 2, 0, 4, 1, 1, 3, 2, 2, 3, 2, 4, 3, 0, 2, 3, 3, 2, 1, 0, 2, 4, 3)
+    val result = sunSurface.createSurfaceAndReturnResult(input)
+    assert(expected === result)
+  }
+
+  test("second test that heat result matches") {
+    val expected = "(2,1,score:27) (1,1,score:25) (2,2,score:23)"
+    val input = List(3, 4, 2, 3, 2, 1, 4, 4, 2, 0, 3, 4, 1, 1, 2, 3, 4, 4)
+    val result = sunSurface.createSurfaceAndReturnResult(input)
+    assert(expected === result)
+  }
+
   def createSunSurface(size: Int, heats: List[Int]): List[SunSpot] = sunSurface.createSurface(size :: heats)
 
 }

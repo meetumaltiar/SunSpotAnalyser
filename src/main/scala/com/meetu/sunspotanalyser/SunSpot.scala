@@ -4,7 +4,7 @@ class SunSurfaceService {
   def createSurface(input: List[Int]): List[SunSpot] = {
     val size = input.head
     val heats = input.tail
-    assert(size * size == heats.size)
+    require(size * size == heats.size)
 
     val points = createPoints(size)
     val sunSpots = (0 to points.size - 1).toList map {
@@ -13,8 +13,26 @@ class SunSurfaceService {
     sunSpots
   }
 
+  def createSurfaceAndReturnResult(input: List[Int]): String = {
+    val t = input.head
+    require(t <= input.tail.tail.size)
+    val sunSpots = createSurface(input.tail)
+    val heatResults = getHeatResultsOfsurface(sunSpots).sortBy(_.heat).reverse.take(t)
+    heatResults.mkString(" ")
+  }
+
   def getHeatsOfsurface(sunSurface: List[SunSpot]): List[Int] = sunSurface map {
-    sunSpot => (neighbours(sunSpot, sunSurface) map { neighbour => neighbour.heat }).sum + sunSpot.heat
+    sunSpot =>
+      new Result(sunSpot.abscissa, sunSpot.ordinate, getHeatOfSunSpot(sunSurface, sunSpot))
+      getHeatOfSunSpot(sunSurface, sunSpot)
+  }
+
+  def getHeatResultsOfsurface(sunSurface: List[SunSpot]): List[Result] = sunSurface map {
+    sunSpot => new Result(sunSpot.abscissa, sunSpot.ordinate, getHeatOfSunSpot(sunSurface, sunSpot))
+  }
+
+  def getHeatOfSunSpot(sunSurface: List[SunSpot], sunSpot: SunSpot) = {
+    (neighbours(sunSpot, sunSurface) map { neighbour => neighbour.heat }).sum + sunSpot.heat
   }
 
   def createPoints(size: Int): List[SunSpot] = for {
@@ -44,3 +62,8 @@ class SunSurfaceService {
 }
 
 case class SunSpot(abscissa: Int, ordinate: Int, heat: Int)
+
+class Result(val x: Int, val y: Int, val heat: Int) {
+  val comma = ","
+  override def toString = "(" + x + comma + y + comma + "score:" + heat + ")"
+}
