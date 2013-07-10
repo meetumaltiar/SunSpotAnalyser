@@ -17,11 +17,10 @@ class SunSurfaceService {
     sunSpot => (neighbours(sunSpot, sunSurface) map { neighbour => neighbour.heat }).sum + sunSpot.heat
   }
 
-  def createPoints(size: Int): List[SunSpot] =
-    for {
-      x <- (0 to size - 1).toList
-      y <- (0 to size - 1).toList
-    } yield SunSpot(x, y, 0)
+  def createPoints(size: Int): List[SunSpot] = for {
+    x <- (0 to size - 1).toList
+    y <- (0 to size - 1).toList
+  } yield SunSpot(x, y, 0)
 
   def neighbours(sunSpot: SunSpot, sunSurface: List[SunSpot]): List[SunSpot] = {
     val allNeighbours = for {
