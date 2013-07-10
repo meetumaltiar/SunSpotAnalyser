@@ -13,6 +13,10 @@ class SunSurfaceService {
     sunSpots
   }
 
+  def getHeatsOfsurface(sunSurface: List[SunSpot]): List[Int] = sunSurface map {
+    sunSpot => (neighbours(sunSpot, sunSurface) map { neighbour => neighbour.heat }).sum + sunSpot.heat
+  }
+
   def createPoints(size: Int): List[SunSpot] =
     for {
       x <- (0 to size - 1).toList
